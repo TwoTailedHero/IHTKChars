@@ -618,8 +618,6 @@ addHook("IntermissionThinker", function(failed)
 	kombi.hurryup = false
 end)
 
-local clocktype = CV_FindVar("timerres")
-
 if not srb2p
 	local clocktype = CV_FindVar("timerres") -- Get the ConVar
 	local offset = 16
@@ -737,8 +735,8 @@ if not srb2p
 		end
 	end
 
-	customhud.AddItem("kerotime", WL4HUD_KeroClock)
-	customhud.AddItem("kerotreasure", WL4HUD_Treasure)
+	customhud.AddItem("kerotime", "KombiWL4", WL4HUD_KeroClock)
+	customhud.AddItem("kerotreasure", "KombiWL4", WL4HUD_Treasure)
 end
 
 local function K_CheckTag(mobj)
@@ -760,7 +758,7 @@ addHook("MobjThinker", function(mobj)
 end, MT_WLPORTALSPAWNER)
 
 local function K_RunPortalSwitchCheck(mobj, onlyswitch)
-	if noswitchcheck
+	if onlyswitch
 		return mobj.switch and kombi.activeportal == mobj.switch
 	else
 		return not mobj.switch or (kombi.activeportal and kombi.activeportal == mobj.switch)
@@ -769,12 +767,10 @@ end
 
 local function K_PortalThinker(mobj)
 	if not mobj.switch mobj.switch = K_CheckTag(mobj) end
-	if mobj.switch
-		if K_RunPortalSwitchCheck(mobj, true)
-			mobj.alpha = 0
-		else
-			mobj.alpha = 255
-		end
+	if K_RunPortalSwitchCheck(mobj)
+		mobj.alpha = 255
+	else
+		mobj.alpha = 0
 	end
 	if kombi.hurryup and K_RunPortalSwitchCheck(mobj)
 		mobj.destscale = 2*FRACUNIT
@@ -875,7 +871,7 @@ addHook("ThinkFrame", function()
 end)
 
 addHook("MobjThinker", function(mobj)
-	mobj.scale = 2 * FRACUNIT
+	mobj.scale = 2*FRACUNIT
 	if mobj.spawnpoint and not mobj.escapetype
 		mobj.escapetype = mobj.spawnpoint.args[0] or mobj.spawnpoint.extrainfo
 		mobj.portal = mobj.spawnpoint.tag
@@ -915,7 +911,7 @@ local frogSwitchEyeRemaps = {
 }
 
 addHook("MobjThinker", function(mobj)
-	mobj.scale = 2 * FRACUNIT
+	mobj.scale = 2*FRACUNIT
 	local frame = mobj.frame
 	if frame == D return end
 	
