@@ -1,0 +1,12 @@
+name = Shayde
+flags = 0
+realname = Shayde
+hudname = SHAYDE
+prefcolor = Volcanic
+supercolor = Cobalt
+ability = CA_HOVER
+ability2 = CA2_SPINDASH
+actionspd = 60
+maxdash = 72
+shieldscale = 1.2
+contangle = 3
