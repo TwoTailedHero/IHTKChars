@@ -621,116 +621,124 @@ end)
 local clocktype = CV_FindVar("timerres")
 
 if not srb2p
+	local clocktype = CV_FindVar("timerres") -- Get the ConVar
 	local offset = 16
-	local center = 160-(offset*1)
-	local wltimeclr = 2
-	local function WL4HUD_KeroClock(v,player)
-		if not player.mo return end
-		-- Escape Clock
-		if (gamemap >= 604 and gamemap <= 624 or (gamemap == 25 and mapheaderinfo[gamemap].lvlttl == "Black Core") or (kombi.hurryup and not kombi.falsealarm))
-			if clocktype.value == 3
-				local ourtime = kombi.disptime
-				if ourtime <= 11*TICRATE
-					wltimeclr = SKINCOLOR_RED
-				elseif ourtime <= 31*TICRATE
-					wltimeclr = SKINCOLOR_YELLOW
+	local center = 160 - offset
+	local wltimeclr = SKINCOLOR_WHITE
+
+	-- Function to determine timer color
+	local function getTimeColor(ourtime)
+		if ourtime <= 11 * TICRATE then
+			return SKINCOLOR_RED
+		elseif ourtime <= 31 * TICRATE then
+			return SKINCOLOR_YELLOW
+		else
+			return SKINCOLOR_WHITE
+		end
+	end
+
+	-- Function to draw a digit at a given position
+	local function drawDigit(v, xpos, ypos, scale, digit, color)
+		local patch = v.cachePatch("WLTIME" .. digit)
+		if patch then
+			v.drawScaled(xpos * FRACUNIT, ypos * FRACUNIT, scale * FRACUNIT, patch, V_SNAPTOTOP | V_PERPLAYER, v.getColormap(nil, color))
+		end
+	end
+
+	-- Function to draw the escape clock digits
+	local function drawTimerDigits(v, xpos, ypos, timeValue, color)
+		local timeStr = tostring(timeValue)
+		for i = 1, #timeStr do
+			drawDigit(v, xpos, ypos, 2, timeStr:sub(i, i), color)
+			xpos = xpos + offset
+		end
+	end
+
+	-- Function to draw the clock animation
+	local function drawClockAnimation(v, xpos, ypos, frame)
+		local patch = v.cachePatch("WLCLOCK" .. frame)
+		if patch then
+			v.draw(xpos - 16, ypos, patch, V_SNAPTOTOP | V_PERPLAYER)
+		end
+	end
+
+	-- Function to handle different timer display modes
+	local function WL4HUD_KeroClock(v, player)
+		if not player.mo then return end
+		if not (gamemap >= 604 and gamemap <= 624 or (gamemap == 25 and mapheaderinfo[gamemap].lvlttl == "Black Core") or (kombi.hurryup and not kombi.falsealarm)) then return end
+
+		local xpos, ypos = center, hudinfo[HUD_SCORE].y
+		local frame = ((player.wl4kombitime) / 3) % 6 or 0
+
+		if clocktype.value == 3 then -- Timer Display: Tics
+			local ourtime = kombi.disptime
+			wltimeclr = getTimeColor(ourtime)
+			drawTimerDigits(v, xpos, ypos, ourtime, wltimeclr)
+			drawClockAnimation(v, center, ypos, frame)
+
+		elseif clocktype.value == 2 or clocktype.value == 1 then -- Timer Display: CD/Mania
+			wltimeclr = getTimeColor(kombi.disptime)
+			if not kombi.outtatimegong then
+				local overflow = kombi.timeleftmins > 9
+				local drawdots = (player.wl4kombitime - kombi.hittime) % 35 < 18
+
+				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins // 10) % 10, wltimeclr) end
+				if drawdots then drawDigit(v, center + offset, ypos, 2, "C", wltimeclr) end
+				if drawdots then drawDigit(v, center + offset * 4, ypos + 25, 1, "D", wltimeclr) end
+
+				drawDigit(v, center + offset * 3, ypos, 2, kombi.timeleftsecs % 10, wltimeclr)
+				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs // 10) % 10, wltimeclr)
+
+				if overflow then
+					drawDigit(v, center + offset, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
 				else
-					wltimeclr = SKINCOLOR_WHITE
+					drawDigit(v, center, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
 				end
-				local xpos = center
-				ourtime = tostring(ourtime)
-				for i = 1,#ourtime do
-					local dothis = string.char(ourtime:byte(i,i))
-					v.drawScaled(xpos*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, v.cachePatch("WLTIME\$dothis\"), V_SNAPTOTOP|V_PERPLAYER, v.getColormap(nil, wltimeclr))
-					xpos = $+offset
-				end
-				local frame =((player.wl4kombitime)/3)%6 or 0
-				local digit = v.cachePatch("WLCLOCK\$frame\")
-				v.draw(center-16, hudinfo[HUD_SCORE].y, digit,V_SNAPTOTOP|V_PERPLAYER)
-			elseif clocktype.value == 2 or clocktype.value == 1
-				if kombi.disptime <= 11*TICRATE
-					wltimeclr = SKINCOLOR_RED
-				elseif kombi.disptime <= 31*TICRATE
-					wltimeclr = SKINCOLOR_YELLOW
-				else
-					wltimeclr = SKINCOLOR_WHITE
-				end
-				if not kombi.outtatimegong
-					local overflow = kombi.timeleftmins > 9
-					local drawdots = (player.wl4kombitime-kombi.hittime)%35 < 18
-					if overflow
-						local digit = v.cachePatch("WLTIME\$(kombi.timeleftmins/10)%10\")
-						v.drawScaled((center)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					elseif drawdots
-						v.drawScaled((center+offset)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, v.cachePatch("WLTIMEC"),V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					end
-					if drawdots
-						v.drawScaled((center+offset*4)*FRACUNIT, hudinfo[HUD_SCORE].y+25*FRACUNIT, FRACUNIT, v.cachePatch("WLTIMED"),V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					end
-					local digit = v.cachePatch("WLTIME\$kombi.timeleftsecs%10\")
-					v.drawScaled((center+offset*3)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					digit = v.cachePatch("WLTIME\$(kombi.timeleftsecs/10)%10\")
-					v.drawScaled((center+offset*2)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					if overflow
-						digit = v.cachePatch("WLTIME\$kombi.timeleftmins%10\")
-						v.drawScaled((center+offset)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					else
-						digit = v.cachePatch("WLTIME\$kombi.timeleftmins%10\")
-						v.drawScaled(center*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					end
-					digit = v.cachePatch("WLTIME\$kombi.timeleftcents%10\")
-					v.drawScaled((center+(offset*5))*FRACUNIT, hudinfo[HUD_SCORE].y+25*FRACUNIT, FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					digit = v.cachePatch("WLTIME\$(kombi.timeleftcents/10)%10\")
-					v.drawScaled((center+(offset*4)+8)*FRACUNIT, hudinfo[HUD_SCORE].y+25*FRACUNIT, FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-				end
-				local frame =((player.wl4kombitime)/3)%6 or 0
-				local digit = v.cachePatch("WLCLOCK\$frame\")
-				v.draw(center-16, hudinfo[HUD_SCORE].y, digit,V_SNAPTOTOP|V_PERPLAYER)
-			else
-				if kombi.disptime <= 11*TICRATE
-					wltimeclr = SKINCOLOR_RED
-				elseif kombi.disptime <= 31*TICRATE
-					wltimeclr = SKINCOLOR_YELLOW
-				else
-					wltimeclr = SKINCOLOR_WHITE
-				end
-				if not kombi.outtatimegong
-					local overflow = kombi.timeleftmins > 9
-					local drawdots = (player.wl4kombitime-kombi.hittime)%35 < 18
-					if overflow
-						local digit = v.cachePatch("WLTIME\$(kombi.timeleftmins/10)%10\")
-						v.drawScaled((center)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					elseif drawdots
-						v.drawScaled((center+offset)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, v.cachePatch("WLTIMEC"),V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					end
-					local digit = v.cachePatch("WLTIME\$kombi.timeleftsecs%10\")
-					v.drawScaled((center+offset*3)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					digit = v.cachePatch("WLTIME\$(kombi.timeleftsecs/10)%10\")
-					v.drawScaled((center+offset*2)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					if overflow
-						digit = v.cachePatch("WLTIME\$kombi.timeleftmins%10\")
-						v.drawScaled((center+offset)*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					else
-						digit = v.cachePatch("WLTIME\$kombi.timeleftmins%10\")
-						v.drawScaled(center*FRACUNIT, hudinfo[HUD_SCORE].y*FRACUNIT, 2*FRACUNIT, digit,V_SNAPTOTOP|V_PERPLAYER,v.getColormap(nil, wltimeclr))
-					end
-				end
-				local frame =((player.wl4kombitime)/3)%6 or 0
-				local digit = v.cachePatch("WLCLOCK\$frame\")
-				v.draw(center-16, hudinfo[HUD_SCORE].y, digit,V_SNAPTOTOP|V_PERPLAYER)
+
+				drawDigit(v, center + offset * 5, ypos + 25, 1, kombi.timeleftcents % 10, wltimeclr)
+				drawDigit(v, center + offset * 4 + 8, ypos + 25, 1, (kombi.timeleftcents // 10) % 10, wltimeclr)
 			end
+
+			drawClockAnimation(v, center, ypos, frame)
+
+		else -- Timer Display: Classic
+			wltimeclr = getTimeColor(kombi.disptime)
+			if not kombi.outtatimegong then
+				local overflow = kombi.timeleftmins > 9
+				local drawdots = (player.wl4kombitime - kombi.hittime) % 35 < 18
+
+				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins // 10) % 10, wltimeclr) end
+				if drawdots then drawDigit(v, center + offset, ypos, 2, "C", wltimeclr) end
+
+				drawDigit(v, center + offset * 3, ypos, 2, kombi.timeleftsecs % 10, wltimeclr)
+				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs // 10) % 10, wltimeclr)
+
+				if overflow then
+					drawDigit(v, center + offset, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
+				else
+					drawDigit(v, center, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
+				end
+			end
+
+			drawClockAnimation(v, center, ypos, frame)
 		end
 	end
-	local function WL4HUD_Treasure(v,player)
-		v.drawScaled(((320*FRACUNIT)+kombi.coinxoff-(((offset/2)*kombi.coinsize)*8)-kombi.coinsize), (hudinfo[HUD_SCORE].y+2)*FRACUNIT, kombi.coinsize, v.cachePatch("WLCOINC"), V_SNAPTOTOP|V_PERPLAYER)
-		for i = 0,5 do
-			local frame = (player.wl4score or 0)/(10^i)%10 or 0
-			local digit = v.cachePatch("WLCOIN\$frame\")
-			v.drawScaled((320*FRACUNIT)+kombi.coinxoff-(((offset/2)*kombi.coinsize)*(2+i)), (hudinfo[HUD_SCORE].y+2)*FRACUNIT, kombi.coinsize, digit, V_SNAPTOTOP|V_PERPLAYER)
+
+	-- Function to handle treasure display
+	local function WL4HUD_Treasure(v, player)
+		local xpos = (320 * FRACUNIT) + kombi.coinxoff - (((offset / 2) * kombi.coinsize) * 8) - kombi.coinsize
+		local ypos = (hudinfo[HUD_SCORE].y + 2) * FRACUNIT
+
+		v.drawScaled(xpos, ypos, kombi.coinsize, v.cachePatch("WLCOINC"), V_SNAPTOTOP | V_PERPLAYER)
+
+		for i = 0, 5 do
+			local frame = (player.wl4score or 0) // (10 ^ i) % 10
+			drawDigit(v, (320 * FRACUNIT) + kombi.coinxoff - (((offset / 2) * kombi.coinsize) * (2 + i)), ypos, kombi.coinsize, frame, SKINCOLOR_WHITE)
 		end
 	end
-	customhud.AddItem("kerotime", "KombiWL4", WL4HUD_KeroClock, "game", 0)
-	customhud.AddItem("treasure", "KombiWL4", WL4HUD_Treasure, "game", 0)
+
+	customhud.AddItem("kerotime", WL4HUD_KeroClock)
+	customhud.AddItem("kerotreasure", WL4HUD_Treasure)
 end
 
 local function K_CheckTag(mobj)
