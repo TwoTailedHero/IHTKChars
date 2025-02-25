@@ -682,12 +682,12 @@ if not srb2p
 				local overflow = kombi.timeleftmins > 9
 				local drawdots = (player.wl4kombitime - kombi.hittime) % 35 < 18
 
-				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins // 10) % 10, wltimeclr) end
+				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins / 10) % 10, wltimeclr) end
 				if drawdots then drawDigit(v, center + offset, ypos, 2, "C", wltimeclr) end
 				if drawdots then drawDigit(v, center + offset * 4, ypos + 25, 1, "D", wltimeclr) end
 
 				drawDigit(v, center + offset * 3, ypos, 2, kombi.timeleftsecs % 10, wltimeclr)
-				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs // 10) % 10, wltimeclr)
+				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs / 10) % 10, wltimeclr)
 
 				if overflow then
 					drawDigit(v, center + offset, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
@@ -696,7 +696,7 @@ if not srb2p
 				end
 
 				drawDigit(v, center + offset * 5, ypos + 25, 1, kombi.timeleftcents % 10, wltimeclr)
-				drawDigit(v, center + offset * 4 + 8, ypos + 25, 1, (kombi.timeleftcents // 10) % 10, wltimeclr)
+				drawDigit(v, center + offset * 4 + 8, ypos + 25, 1, (kombi.timeleftcents / 10) % 10, wltimeclr)
 			end
 
 			drawClockAnimation(v, center, ypos, frame)
@@ -707,11 +707,11 @@ if not srb2p
 				local overflow = kombi.timeleftmins > 9
 				local drawdots = (player.wl4kombitime - kombi.hittime) % 35 < 18
 
-				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins // 10) % 10, wltimeclr) end
+				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins / 10) % 10, wltimeclr) end
 				if drawdots then drawDigit(v, center + offset, ypos, 2, "C", wltimeclr) end
 
 				drawDigit(v, center + offset * 3, ypos, 2, kombi.timeleftsecs % 10, wltimeclr)
-				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs // 10) % 10, wltimeclr)
+				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs / 10) % 10, wltimeclr)
 
 				if overflow then
 					drawDigit(v, center + offset, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
@@ -732,7 +732,7 @@ if not srb2p
 		v.drawScaled(xpos, ypos, kombi.coinsize, v.cachePatch("WLCOINC"), V_SNAPTOTOP | V_PERPLAYER)
 
 		for i = 0, 5 do
-			local frame = (player.wl4score or 0) // (10 ^ i) % 10
+			local frame = (player.wl4score or 0) / (10 ^ i) % 10
 			drawDigit(v, (320 * FRACUNIT) + kombi.coinxoff - (((offset / 2) * kombi.coinsize) * (2 + i)), ypos, kombi.coinsize, frame, SKINCOLOR_WHITE)
 		end
 	end
