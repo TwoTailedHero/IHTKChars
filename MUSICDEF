@@ -1,0 +1,149 @@
+Lump OPNYHT
+Title = Open_Your_Heart
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 158
+
+Lump LIVEAN
+Title = Live_and_Learn
+Authors = Johnny_Gioeli
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 172
+
+Lump SHEROES
+Title = What_I'm_Made_Of
+Authors = Jun_Senoue
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 180
+
+Lump _WL4TI
+Title = Work_It!
+Authors = Ryoji_Yoshitomi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 120
+
+Lump SA1CYB
+Title = Choose_Your_Buddy!
+Authors = Jun_Senoue
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 124
+
+Lump HEYYOU
+Title = SA1_Speedup_Theme
+Alttitle = Hey_You!_It's_Time_to_Speed_Up!!
+Authors = Jun_Senoue
+Soundtestpage = 1
+Stoppingtime = 20000
+Soundtestcond = 0
+BPM = 158
+
+Lump NOFEAR
+Title = SA1_Invincibility_Theme
+Alttitle = Invincible..._No_Fear!
+Authors = Jun_Senoue
+Soundtestpage = 1
+Stoppingtime = 20000
+Soundtestcond = 0
+BPM = 150
+
+Lump STILLI
+Title = SA2_Invincibility_Theme
+Alttitle = Still_Invincible..._No_Fear!
+Authors = Jun_Senoue
+Soundtestpage = 1
+Stoppingtime = 20000
+Soundtestcond = 0
+BPM = 150
+
+Lump SAGAIN
+Title = SA2_Speedup_Theme
+Alttitle = Hey_You!_It's_Time_to_Speed_Up_Again!!
+Authors = Jun_Senoue
+Soundtestpage = 1
+Stoppingtime = 20000
+Soundtestcond = 0
+BPM = 168
+
+Lump SA1TOS
+Title = It_Doesn't_Matter
+Alttitle = It_Doesn't_Matter_...Theme_of_Sonic
+Authors = Jun_Senoue
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 144
+
+Lump SA1SS0
+Title = Welcome_to_Station_Square
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 172
+
+Lump SA1mr0
+Title = Mystic_Ruins
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 100
+
+Lump SA1RM1
+Title = Mt._Red,_A_Symbol_Of_Thrill
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 138
+
+Lump SA1RM2
+Title = Red_Hot_Skull
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 103
+
+Lump SA1EC1
+Title = Azure_Blue_World
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 172
+
+Lump SA1EC2
+Title = Windy_and_Ripply
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 136
+
+Lump SA1FE1
+Title = Mechanical_Resonance
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 118
+
+Lump SA1FE2
+Title = Crank_the_Heat_Up!!
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 130
+
+Lump SA1LW1
+Title = Tricky_Maze
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 114
+
+Lump SA1LW2
+Title = Leading_Lights
+Authors = Jun_Senoue,_Kenichi_Tokoi
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 104
+
