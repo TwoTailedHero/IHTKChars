@@ -1,0 +1,638 @@
+###################
+# AREA 1
+# MOVEMENT
+###################
+
+# Pre-text
+PROMPT 201
+NumPages 4
+PAGE 1
+Tag = TAMPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = Welcome to the tutorial! \baTo continue, \b6press the \82Space Bar\80, \b6or the \83A button\80.
+        #
+PAGE 2
+MetaPage = 1
+Icon = AMYRTALK
+HideHud = All
+NumberOfPics = 8
+PicMode = Loop
+Pic1Name = MVUPFPS
+Pic1Hires = True
+Pic1Duration = 26
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = MVNTFPS
+Pic2Hires = True
+Pic2Duration = 18
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = MVDNFPS
+Pic3Hires = True
+Pic3Duration = 26
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = MVNTFPS
+Pic4Hires = True
+Pic4Duration = 18
+Pic4XCoord = 0
+Pic4YCoord = 48
+Pic5Name = MVLFFPS
+Pic5Hires = True
+Pic5Duration = 26
+Pic5XCoord = 0
+Pic5YCoord = 48
+Pic6Name = MVNTFPS
+Pic6Hires = True
+Pic6Duration = 18
+Pic6XCoord = 0
+Pic6YCoord = 48
+Pic7Name = MVRGFPS
+Pic7Hires = True
+Pic7Duration = 26
+Pic7XCoord = 0
+Pic7YCoord = 48
+Pic8Name = MVNTFPS
+Pic8Hires = True
+Pic8Duration = 18
+Pic8XCoord = 0
+Pic8YCoord = 48
+PageText = To move around, \b6press the \82WASD\80 keys on your keyboard.
+        #
+PAGE 3
+MetaPage = 1
+Icon = AMYRTALK
+HideHud = All
+NumberOfPics = 8
+PicMode = Loop
+Pic1Name = MVUPGAMP
+Pic1Hires = True
+Pic1Duration = 26
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = MVNTGAMP
+Pic2Hires = True
+Pic2Duration = 18
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = MVDNGAMP
+Pic3Hires = True
+Pic3Duration = 26
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = MVNTGAMP
+Pic4Hires = True
+Pic4Duration = 18
+Pic4XCoord = 0
+Pic4YCoord = 48
+Pic5Name = MVLFGAMP
+Pic5Hires = True
+Pic5Duration = 26
+Pic5XCoord = 0
+Pic5YCoord = 48
+Pic6Name = MVNTGAMP
+Pic6Hires = True
+Pic6Duration = 18
+Pic6XCoord = 0
+Pic6YCoord = 48
+Pic7Name = MVRGGAMP
+Pic7Hires = True
+Pic7Duration = 26
+Pic7XCoord = 0
+Pic7YCoord = 48
+Pic8Name = MVNTGAMP
+Pic8Hires = True
+Pic8Duration = 18
+Pic8XCoord = 0
+Pic8YCoord = 48
+PageText = If you're using a gamepad, \b6move the \83left control stick\80.
+        #
+PAGE 4
+MetaPage = 1
+Icon = AMYRTALK
+PageText = Move around to reach the exit!
+        #
+
+# HUD prompt
+PROMPT 202
+NumPages 3
+PAGE 1
+Tag = TAMHint
+Name = Move_Around
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+TimeToNext = TICRATE*3
+PageText = Use the \82WASD\80 keys, \b6or the \83left stick\80 to move.
+        #
+PAGE 2
+MetaPage = 1
+TimeToNext = TICRATE*4
+PageText = Automatic braking is on by default, \b6which causes you to slow down quickly
+        #
+PAGE 3
+MetaPage = 1
+NextPage = 1
+TimeToNext = TICRATE*3
+PageText = when you release the controls.
+        #
+
+###################
+# AREA 2
+# CAMERA ROTATION
+###################
+
+# Pre-text
+PROMPT 204
+NumPages 4
+PAGE 1
+Tag = TACPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = By default, \b6the camera rotates when moving left or right, \b6but it can also be controlled manually. 
+        #
+PAGE 2
+MetaPage = 1
+HideHud = All
+NumberOfPics = 4
+PicMode = Loop
+Pic1Name = CMLFFPS
+Pic1Hires = True
+Pic1Duration = 26
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = CMNTFPS
+Pic2Hires = True
+Pic2Duration = 18
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = CMRGFPS
+Pic3Hires = True
+Pic3Duration = 26
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = CMNTFPS
+Pic4Hires = True
+Pic4Duration = 18
+Pic4XCoord = 0
+Pic4YCoord = 48
+PageText = To control the camera, \b6use the \82Mouse\80. \baFor keyboard-only play, \b6the \82Arrow keys\80 also control the camera.
+        #
+PAGE 3
+MetaPage = 1
+HideHud = All
+NumberOfPics = 4
+PicMode = Loop
+Pic1Name = CMLFGAMP
+Pic1Hires = True
+Pic1Duration = 26
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = CMNTGAMP
+Pic2Hires = True
+Pic2Duration = 18
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = CMRGGAMP
+Pic3Hires = True
+Pic3Duration = 26
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = CMNTGAMP
+Pic4Hires = True
+Pic4Duration = 18
+Pic4XCoord = 0
+Pic4YCoord = 48
+PageText = When using a gamepad, \b6use the \83right bumper\80 to control the camera.
+        #
+PAGE 4
+MetaPage = 1
+PageText = Use the camera controls to look in the direction you want to travel in, \b6and find the exit!
+        #
+
+# HUD prompt
+PROMPT 205
+NumPages 3
+PAGE 1
+Tag = TACHint
+Name = Camera_Control
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+TimeToNext = TICRATE*4
+PageText = Use the \82Mouse\80, \b6\82Arrow keys\80 \b6or \83right bumper\80 to control the camera.
+        #
+PAGE 2
+MetaPage = 1
+TimeToNext = TICRATE*3
+PageText = If moving the camera feels too fast or slow,
+        #
+PAGE 3
+MetaPage = 1
+NextPage = 1
+TimeToNext = TICRATE*4
+PageText = you can adjust the rotation speed in the camera options.
+        #
+
+###################
+# AREA 3
+# MOVEMENT AND CAMERA
+###################
+
+# Pre-text
+PROMPT 206
+NumPages 4
+PAGE 1
+Tag = TADPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = You can use \82Center View\80 to reposition the camera behind you, if needed.
+        #
+PAGE 2
+MetaPage = 1
+PageText = When using a keyboard, \b6press \82Ctrl\80. \baOn a gamepad, \b6press the \83right bumper\80.
+        #
+PAGE 3
+MetaPage = 1
+PageText = Additionally, \b6you can \82target\80 enemies in front of you by holding \82Center View\80!
+        #
+PAGE 4
+MetaPage = 1
+PageText = To practice this, \b6try to reach the goal here while always seeing the Jetty-Syn on the screen.
+        #
+
+# HUD prompt
+PROMPT 207
+NumPages 3
+PAGE 1
+Tag = TADHint
+Name = Move_&_Look
+Icon = STARORB
+Lines = 3
+TimeToNext = TICRATE*4
+PageText = Use \82Ctrl\80 or the \83right bumper\80 to keep an eye on the robot!
+        #
+PAGE 2
+MetaPage = 1
+TimeToNext = TICRATE*3
+PageText = If it feels uncomfortable to hold, \b6check out the camera options,
+        #
+PAGE 3
+MetaPage = 1
+TimeToNext = TICRATE*3
+NextPage = 1
+PageText = where you can change the \82lock button behavior\80 to a toggle.
+        #
+
+# Failure
+PROMPT 208
+NumPages 2
+PAGE 1
+Tag = TADFail
+Name = Kombi
+Icon = AMYRCONC
+IconAlign = Left
+Lines = 4
+PageText = Oops, \b6you lost track of the Jetty-Syn. \baRemember to keep it on the screen while moving past!
+        #
+PAGE 2
+MetaPage = 1
+Icon = AMYRTALK
+PageText = It might be easier to take it slowly.
+        #
+
+# Post-text
+PROMPT 209
+NumPages 4
+PAGE 1
+Tag = TADPost
+Name = Kombi
+Icon = AMYRJOYS
+IconAlign = Left
+Lines = 4
+PageText = Well done! 
+        #
+PAGE 2
+MetaPage = 1
+Icon = AMYRTALK
+PageText = When using a mouse and keyboard, \b6you might prefer controlling the camera all by yourself. 
+        #
+PAGE 3
+MetaPage = 1
+Icon = AMYRTALK
+PageText = To disable automatic camera movement, \b6check out the \82Manual\80 playstyle in the control options.
+        #
+PAGE 4
+MetaPage = 1
+Icon = AMYRTALK
+PageText = This is recommended for more experienced players, \b6as it gives you the most control!
+        #
+
+###################
+# AREA 4
+# JUMPING
+###################
+
+# Pre-text
+PROMPT 210
+NumPages 2
+PAGE 1
+Tag = TAJPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = You won't get far if you can't jump! \baTo jump, \b6press the \82Space Bar\80, \b6or the \83A button\80.
+        #
+PAGE 2
+MetaPage = 1
+PageText = Holding it down makes you jump higher than releasing it early. \baJump to reach the next area!
+        #
+
+# HUD prompt
+PROMPT 211
+NumPages 1
+PAGE 1
+Tag = TAJHint
+Name = Jump
+Icon = STARORB
+Lines = 3
+PageText = Press the \82Space Bar\80 or the \83A button\80 to jump.
+        #
+
+###################
+# AREA 5
+# SPINNING
+###################
+
+# Pre-text
+PROMPT 212
+NumPages 4
+PAGE 1
+Tag = TASPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = You can also spin dash and roll, \b6by pressing \82Left Shift\80, \b6or the \83X button\80.
+        #
+PAGE 2
+MetaPage = 1
+HideHud = All
+NumberOfPics = 4
+PicMode = Loop
+PicToLoop = 2
+Pic1Name = SDA1FPS
+Pic1Hires = True
+Pic1Duration = 34
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = SDA2FPS
+Pic2Hires = True
+Pic2Duration = 9
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = SDA3FPS
+Pic3Hires = True
+Pic3Duration = 9
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = SDA4FPS
+Pic4Hires = True
+Pic4Duration = 9
+Pic4XCoord = 0
+Pic4YCoord = 48
+Pic5Name = SDA5FPS
+Pic5Hires = True
+Pic5Duration = 5
+Pic5XCoord = 0
+Pic5YCoord = 48
+Pic6Name = SDA6FPS
+Pic6Hires = True
+Pic6Duration = 5
+Pic6XCoord = 0
+Pic6YCoord = 48
+Pic7Name = SDA7FPS
+Pic7Hires = True
+Pic7Duration = 5
+Pic7XCoord = 0
+Pic7YCoord = 48
+Pic8Name = SDA8FPS
+Pic8Hires = True
+Pic8Duration = 34
+Pic8XCoord = 0
+Pic8YCoord = 48
+PageText = Pressing and holding it down while standing still will charge the spin dash.
+        #
+PAGE 3
+MetaPage = 1
+HideHud = All
+NumberOfPics = 8
+PicMode = Loop
+Pic1Name = SDA5FPS
+Pic1Hires = True
+Pic1Duration = 5
+Pic1XCoord = 0
+Pic1YCoord = 48
+Pic2Name = SDA6FPS
+Pic2Hires = True
+Pic2Duration = 5
+Pic2XCoord = 0
+Pic2YCoord = 48
+Pic3Name = SDA7FPS
+Pic3Hires = True
+Pic3Duration = 5
+Pic3XCoord = 0
+Pic3YCoord = 48
+Pic4Name = SDA8FPS
+Pic4Hires = True
+Pic4Duration = 34
+Pic4XCoord = 0
+Pic4YCoord = 48
+Pic5Name = SDA1FPS
+Pic5Hires = True
+Pic5Duration = 34
+Pic5XCoord = 0
+Pic5YCoord = 48
+Pic6Name = SDA2FPS
+Pic6Hires = True
+Pic6Duration = 9
+Pic6XCoord = 0
+Pic6YCoord = 48
+Pic7Name = SDA3FPS
+Pic7Hires = True
+Pic7Duration = 9
+Pic7XCoord = 0
+Pic7YCoord = 48
+Pic8Name = SDA4FPS
+Pic8Hires = True
+Pic8Duration = 9
+Pic8XCoord = 0
+Pic8YCoord = 48
+PageText = When the button is released, \b6you roll forward, \b6with more speed the longer the spin dash was charged.
+        #
+
+# HUD prompt
+PROMPT 213
+NumPages 1
+PAGE 1
+Tag = TASHint
+Name = Spin_Dash_and_Roll
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+PageText = Hit \82Left Shift\80 or the \83X button\80 to spin dash or roll under the obstacles.
+        #
+
+# Post-text
+PROMPT 214
+NumPages 2
+PAGE 1
+Tag = TASPost
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = While rolling, \b6sloped ground has a stronger influence.
+        #
+
+###################
+# AREA 6
+# SPECIAL ABILITIES
+###################
+
+# Pre-text
+PROMPT 215
+NumPages 4
+PAGE 1
+Tag = TAAPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = Each character has a special ability, \b6used by \82Jumping\80 then pressing \82Jump\80 again in midair.
+        #
+PAGE 2
+MetaPage = 1
+PageText = *My* ability is called the \82Spinjump\80... \b6 because it's a spinning jump. 
+        #
+PAGE 3
+MetaPage = 1
+PageText = It can also add to your vertical momentum, \b6which is useful for scaling big walls.
+        #
+PAGE 4
+MetaPage = 1
+PageText = Use my Spinjump to reach the exit!
+        #
+
+# HUD prompt
+PROMPT 216
+NumPages 1
+PAGE 1
+Tag = TAAHint
+Name = Special_Ability
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+PageText = Hit \82Jump twice\80 to thok.
+        #
+
+# Post-text
+PROMPT 217
+NumPages 2
+PAGE 1
+Tag = TAAPost
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = The Spinjump can also rebound off of spikes,\b6but we can't do that for safety regulations.
+        #
+PAGE 2
+MetaPage = 1
+PageText = But don't expect that to last if you keep bouncing on them, though!\b6I can't bounce forever!
+        #
+
+###################
+# AREA 7
+# SHIELDS
+###################
+
+# Pre-text
+PROMPT 218
+NumPages 3
+PAGE 1
+Tag = TAWPre
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = Finally, \b6certain shields in this game can boost my usual abilities.
+        #
+PAGE 2
+MetaPage = 1
+PageText = To use *this* shield's boost, you should try spin jumping.
+        #
+PAGE 3
+MetaPage = 1
+PageText = ...Just trust me on this.
+        #
+
+# HUD prompt - Pre-shield
+PROMPT 219
+NumPages 1
+PAGE 1
+Tag = TAWHint
+Name = Get_the_Shield
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+PageText = \82Jump\80 or \82Spin\80 into the Whirlwind shield monitor.
+        #
+
+# HUD prompt - Post-shield
+PROMPT 220
+NumPages 1
+PAGE 1
+Tag = TAWHint2
+Name = Shield_Boosting
+Icon = STARORB
+Lines = 3
+TextSpeed = TICRATE/5
+PageText = Hit \82Jump\80, \b6then \82Jump\80 again while in \82vertical mode\80.
+        #
+
+###################
+# ENDING
+###################
+
+# Post-text
+PROMPT 221
+NumPages 3
+PAGE 1
+Tag = TAWPost
+Name = Kombi
+Icon = AMYRTALK
+IconAlign = Left
+Lines = 4
+PageText = Each shield's boost is different. \baTry them all out!
+        #
+PAGE 2
+MetaPage = 1
+Icon = AMYRTALK
+TimeToNext = TICRATE*4
+PageText = There's also a blue switch at the end of each level that you need to hit... \baI haven't figured out what it does yet.
+        #
+PAGE 3
+MetaPage = 1
+Icon = AMYRJOYS
+TimeToNext = TICRATE*4
+PageText = You've finished the tutorial! \baI hope you enjoy this game as much as they did making it!
+        #

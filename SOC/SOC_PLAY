@@ -1,0 +1,414 @@
+Character
+SkinName = kombi
+DisplayName = "Kombi"
+PlayerText = ^5Kombi's^0 moveset adapts to surroundings.
+^5Jump:^0 Spinjump (bounces off spikes, boosts upward), Homing Attack, Wallkick
+^5Spin:^0 Spamdash (ground), Downthok (fast fall, strong boost)
+^5Custom 1:^0 Shoulder Bash (breaks walls/spikes), Dash Attack (speed & damage boost)
+^5Custom 2:^0 Shield Ability (varies by shield, altered properties)
+#
+
+Character
+SkinName = Trez
+DisplayName = "Trez"
+PlayerText = Who let ^2bro^0 in:sob::sob:
+ 
+^2Abilities:^0
+Spin: Shoulder Bash/Ground Slam/Grab and Throw
+Custom 1: Dash Attack
+Custom 2: Crouch
+Custom 3: Look Up
+ 
+^2Tip:^0 The Shoulder Bash is great for breaking through obstacles and enemies, but don't neglect the fact that you can also snipe with Badniks!
+#
+Character
+SkinName = Tynker
+DisplayName = "Tynker"
+PlayerText = I'm over here placing my holder
+#
+Character
+SkinName = Stryke
+DisplayName = "STRYKE#(wip)"
+PlayerText = You know who ELSE is holding their place?
+#
+Character
+SkinName = Shayde
+DisplayName = "Shayde"
+PlayerText = ^5Shayde^0's classic-inspired moveset rewards precise inputs and tactical movement.
+
+^5Abilities:^0 Jump: Insta-Shield/Spindash (Crouched)/Super Peelout (Looking Up)
+Spin: Crouch/Roll
+Custom 1: Look Up (Standing)
+Custom 2: Use Item/Release Reserved Item (Looking Up)
+
+^5Tip:^0 Being small trades in hit protection for access to tight gaps.
+# 
+
+Maincfg Category
+TitleMap = 0
+titlepicsmode = Old
+DemoDelayTime = 999*TICRATE
+GameData = wl4.dat
+SPStage_Start = GP
+
+# PTSR stuff
+
+Level RV
+levelname = Credits
+NoTitleCard = true
+Act = 0
+NextLevel = 1101
+NoZone = 1
+Music = _CREDS
+HideInStats = true
+
+Level 1
+Levelname = Greenflower
+Act = 1
+Keywords = GFZ1
+Music = GFZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 1
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 64
+FlickyList = Bluebird,Chipmunk
+#Flicky selection is final.
+
+Level 2
+Levelname = Greenflower
+Act = 2
+Keywords = GFZ2
+Music = GFZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 1
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 64
+FlickyList = Bluebird,Chipmunk
+#see act 1
+
+Level 3
+Levelname = Greenflower
+Act = 3
+Keywords = GFZ3
+Music = VSBOSS
+MusicPostBoss = GFZ1
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = GP
+SkyNum = 1
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 64
+BonusType = Boss
+FlickyList = Bluebird,Chipmunk
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+#see act 1
+
+Level 4
+Levelname = Techno Hill
+Act = 1
+Keywords = THZ1
+Music = THZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 4
+RecordAttack = true
+LevelSelect = 1
+FlickyList = Rabbit,Chicken
+#Flicky selection is final.
+
+Level 5
+Levelname = Techno Hill
+Act = 2
+Keywords = THZ2
+Music = THZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 6
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 16
+FlickyList = Rabbit,Chicken
+#see act 1
+
+Level 6
+Levelname = Techno Hill
+Act = 3
+Keywords = THZ3
+Music = VSBOSS
+MusicPostBoss = THZ2
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = GP
+SkyNum = 4
+RecordAttack = true
+LevelSelect = 1
+BonusType = Boss
+FlickyList = Rabbit,Chicken
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+#see act 1
+
+Level 7
+Levelname = Deep Sea
+Act = 1
+Keywords = DSZ1
+Music = DSZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 8
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 32
+FlickyList = Fish,Fish,Seal
+#Flicky selection is final. Two sets of fish because they come in two colours.
+
+Level 8
+Levelname = Deep Sea
+Act = 2
+Keywords = DSZ2
+Music = DSZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 8
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 32
+FlickyList = Fish,Fish,Seal
+#see act 1
+
+Level 9
+Levelname = Deep Sea
+Act = 3
+Keywords = DSZ3
+Music = VSBOSS
+MusicPostBoss = DSZ1
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = GP
+SkyNum = 8
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 32
+BonusType = Boss
+FlickyList = Fish,Fish,Seal
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+#see act 1
+
+Level 10
+Levelname = Castle Eggman
+Act = 1
+Keywords = CEZ1
+Music = CEZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 10
+RecordAttack = true
+LevelSelect = 1
+Weather = PRECIP_STORM
+SkyboxScale = 64
+FlickyList = Rat,Bear
+#Flicky selection is final.
+
+Level 11
+Levelname = Castle Eggman
+Act = 2
+Keywords = CEZ2
+Music = CEZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 11
+Weather = PRECIP_STORM_NORAIN
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 16
+FlickyList = Rat,Bear
+#Flicky selection is final.
+
+Level 12
+Levelname = Castle Eggman
+Act = 3
+Keywords = CEZ3
+Music = VSBOSS
+MusicPostBoss = CEZ2
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = GP
+Weather = 1
+SkyNum = 10
+RecordAttack = true
+LevelSelect = 1
+BonusType = Boss
+FlickyList = Rat,Bear
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+#see act 1
+
+Level 13
+Levelname = Arid Canyon
+Act = 1
+Keywords = ACZ1
+Music = ACZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 13
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 64
+FlickyList = Canary,Ram
+#Flicky selection is final.
+
+Level 14
+Levelname = Arid Canyon
+Act = 2
+Keywords = ACZ2
+Music = ACZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 14
+RecordAttack = true
+LevelSelect = 1
+SkyboxScale = 32
+FlickyList = Canary,Ram
+
+Level 15
+Levelname = Arid Canyon
+Act = 3
+Keywords = ACZ3
+Music = VSFANG
+MusicPostBoss = ACZ1
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = GP
+SkyNum = 15
+SkyboxScale = 16
+RecordAttack = true
+LevelSelect = 1
+FlickyList = Canary,Ram
+BonusType = Boss
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+
+Level 16
+Levelname = Red Volcano
+Act = 1
+Keywords = RVZ1
+Music = RVZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 159
+SkyboxScaleZ = 32
+RecordAttack = true
+LevelSelect = 1
+FlickyList = Pig,Cat
+#Cow and Pig will be replaced with Monkey and Iguana when complete.
+
+Level 22
+Levelname = Egg Rock
+Act = 1
+Keywords = ERZ1
+Music = ERZ1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 22
+RecordAttack = true
+LevelSelect = 1
+FlickyList = All
+#Probably final.
+
+Level 23
+Levelname = Egg Rock
+Act = 2
+Keywords = ERZ2
+Music = ERZ2
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = GP
+SkyNum = 22
+RecordAttack = true
+LevelSelect = 1
+FlickyList = All
+
+Level 25
+Levelname = Black Core
+Act = 1
+Keywords = BCZ1
+Music = BCZ1
+NextLevel = GP
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+SkyNum = 22
+RecordAttack = true
+LevelSelect = 1
+SaveGame = true
+FlickyList = All
+ForceResetMusic = On
+WarningTitle = true
+
+Level 26
+Levelname = Black Core
+Act = 2
+Keywords = BCZ2
+Music = VSMETL
+MusicPostBoss = BCZ2
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = 27
+SkyNum = 22
+RecordAttack = true
+LevelSelect = 1
+BonusType = Boss
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+
+Level 27
+Levelname = Black Core
+Act = 3
+Keywords = BCZ3
+Music = VSBRAK
+TypeOfLevel = Singleplayer,Co-op
+NextLevel = ENDING
+SkyNum = 22
+RecordAttack = true
+LevelSelect = 1
+BonusType = Boss
+SkyboxScale = 64
+StartRings = 10
+ForceResetMusic = On
+WarningTitle = true
+
+Level 33
+Levelname = Final Demo
+Act = 0
+Music = FDEMO1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = 1100
+SkyNum = 2
+RecordAttack = true
+Unlockable = 22
+NoReload = 1
+LevelSelect = 2
+SelectHeading = Bonus Stages
+WideIcon = 1
+InterScreen = INTERSCR
+FlickyList = Demo
+
+Level GP
+Levelname = Golden Pyramid
+Act = 0
+Music = FDEMO1
+TypeOfLevel = Singleplayer,Co-op,Competition,Race
+NextLevel = 1100
+SaveGame = true
+SkyNum = 2
+RecordAttack = true
+Unlockable = 22
+NoReload = 1
+LevelSelect = 2
+SelectHeading = Wario Land - HUB
+InterScreen = INTERSCR
+FlickyList = Demo
