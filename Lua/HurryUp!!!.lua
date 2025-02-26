@@ -643,6 +643,14 @@ if not srb2p
 		end
 	end
 
+	-- Above, but for treasure.
+	local function drawCoinDigit(v, xpos, ypos, scale, digit, color)
+		local patch = v.cachePatch("WLCOIN" .. digit)
+		if patch then
+			v.drawScaled(xpos, ypos, scale, patch, V_SNAPTOTOP | V_PERPLAYER, v.getColormap(nil, color))
+		end
+	end
+
 	-- Function to draw the escape clock digits
 	local function drawTimerDigits(v, xpos, ypos, timeValue, color)
 		local timeStr = tostring(timeValue)
@@ -731,12 +739,12 @@ if not srb2p
 
 		for i = 0, 5 do
 			local frame = (player.wl4score or 0) / (10 ^ i) % 10
-			drawDigit(v, (320 * FRACUNIT) + kombi.coinxoff - (((offset / 2) * kombi.coinsize) * (2 + i)), ypos, kombi.coinsize, frame, SKINCOLOR_WHITE)
+			drawCoinDigit(v, (320 * FRACUNIT) + kombi.coinxoff - (((offset / 2) * kombi.coinsize) * (2 + i)), ypos, kombi.coinsize, frame, SKINCOLOR_WHITE)
 		end
 	end
 
 	customhud.AddItem("kerotime", "KombiWL4", WL4HUD_KeroClock)
-	customhud.AddItem("kerotreasure", "KombiWL4", WL4HUD_Treasure)
+	customhud.AddItem("treasure", "KombiWL4", WL4HUD_Treasure)
 end
 
 local function K_CheckTag(mobj)
@@ -767,11 +775,13 @@ end
 
 local function K_PortalThinker(mobj)
 	if not mobj.switch mobj.switch = K_CheckTag(mobj) end
+	/*
 	if K_RunPortalSwitchCheck(mobj)
 		mobj.alpha = 255
 	else
 		mobj.alpha = 0
 	end
+	*/
 	if kombi.hurryup and K_RunPortalSwitchCheck(mobj)
 		mobj.destscale = 2*FRACUNIT
 		mobj.scalespeed = FixedDiv(FRACUNIT, 24*FRACUNIT)
@@ -868,24 +878,9 @@ end, MT_KOMBIFROGSWITCH)
 addHook("ThinkFrame", function()
 	if not kombi.hurryup kombi.animationClock = 0 return end
 	kombi.animationClock = $ + 1
-end)
-
-addHook("MobjThinker", function(mobj)
-	mobj.scale = 2*FRACUNIT
-	if mobj.spawnpoint and not mobj.escapetype
-		mobj.escapetype = mobj.spawnpoint.args[0] or mobj.spawnpoint.extrainfo
-		mobj.portal = mobj.spawnpoint.tag
-	end
-	if not kombi.hurryup return end
 	local clock = kombi.animationClock
-	if mobj.escapetype == 2 return
+	if kombi.falsealarm return
 	else
-		if (clock - pause) == pressanimframes
-			local part = P_SpawnMobjFromMobj(mobj, 0, 0, 0, MT_FROGSWITCHANIMATOR)
-			part.tracer = mobj
-			part.frame = E
-			part.dispoffset = 1
-		end
 		if clock <= pauseby
 			for player in players.iterate do
 				if clock == pauseby
@@ -900,6 +895,22 @@ addHook("MobjThinker", function(mobj)
 				K_ResumeMomentum(player)
 			end
 		end
+	end
+end)
+
+addHook("MobjThinker", function(mobj)
+	mobj.scale = 2*FRACUNIT
+	if mobj.spawnpoint and not mobj.escapetype
+		mobj.escapetype = mobj.spawnpoint.args[0] or mobj.spawnpoint.extrainfo
+		mobj.portal = mobj.spawnpoint.tag
+	end
+	local clock = kombi.animationClock
+	if kombi.falsealarm return
+	elseif clock - pause == pressanimframes
+		local part = P_SpawnMobjFromMobj(mobj, 0, 0, 0, MT_FROGSWITCHANIMATOR)
+		part.tracer = mobj
+		part.frame = E
+		part.dispoffset = 1
 	end
 end, MT_KOMBIFROGSWITCH)
 

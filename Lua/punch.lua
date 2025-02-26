@@ -110,7 +110,7 @@ addHook("PlayerThink", function(player)
 	if player.realmo.punchtime == nil
 		player.realmo.punchtime = 0
 	end
-	if player.realmo.punchtime > 0
+	if player.realmo.punchtime > 1
 		player.realmo.punching = true
 		if player.realmo.pause and player.realmo.pause <= 0
 			player.realmo.punchtime = $ - 1
@@ -166,6 +166,7 @@ addHook("PlayerThink", function(player)
 		if not srb2p and kombiwhogetswl4stuff[player.mo.skin] and not player.mo.kombislopetimer 
 			player.powers[pw_strong] = 0
 		end
+		player.realmo.punchtime = 0
 		player.realmo.punching = false
 		player.nospindash = false
 		player.realmo.headbashing = 0
@@ -200,7 +201,7 @@ addHook("PlayerThink", function(player)
 	and (player.cmd.buttons & kombiwhocanbash[player.realmo.skin])
 	and P_IsObjectOnGround(player.realmo)
 	and player.realmo.punching == false
-	and player.realmo.punchtime == 0
+	and player.realmo.punchtime <= 0
 	and not player.powers[pw_carry] != CR_GRINDRAIL
 	and not player.punchwait
 		player.drawangle = player.realmo.angle
