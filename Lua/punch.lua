@@ -74,6 +74,7 @@ states[S_PLAY_KOMBISBASH] = {
 spr2defaults[SPR2_BASH] = SPR2_DASH
 
 addHook("PlayerThink", function(player)
+	if PSO return end
 	if not player.mo return end
 	if not player.punchwait
 		player.punchwait = 0

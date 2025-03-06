@@ -568,42 +568,290 @@ rawset(_G, "kombisfxbank", { -- voicebanks
 }) -- Trez doesn't need it since we default to WL4 anyway
 
 local function P_AdventureRingBurst(player, rings)
-	local kombiburstang
-	local classicringinitang = ANGLE_90 + ANGLE_11hh -- 101.25 degrees
-	local classicringang = classicringinitang
-	local classicringspeed = 8 * FRACUNIT
-	local losspenalty = FRACUNIT + FixedDiv(player.losstime << FRACBITS, 10 * TICRATE << FRACBITS)
-	if not (twodlevel or (player.mo.flags2 & MF2_TWOD))
-		kombiburstang = player.realmo.angle
-	else
-		kombiburstang = ANGLE_90 + ANGLE_11hh
-	end
-	if not rings return end -- You can't do anything, so don't even try. Sonic, dead or alive, is m-m-mine.
+	if not rings then return end -- No rings to burst, exit early
+
+	local is2D = twodlevel or (player.mo.flags2 & MF2_TWOD) ~= 0
+	local burstAngle = is2D and (ANGLE_90 + ANGLE_11hh) or player.realmo.angle
+	local ringthrow = FRACUNIT + FixedDiv(player.losstime << FRACBITS, 10 * TICRATE << FRACBITS)
+
+	local classicRingAngle = ANGLE_90 + ANGLE_11hh
+	local classicRingSpeed = 8 * FRACUNIT
+	local baseThrust = FixedMul(FixedMul(2 * FRACUNIT, ringthrow), player.mo.scale)
+
 	for i = 1, rings do
-		local ringburst = P_SpawnMobjFromMobj(player.realmo, 0, 0, player.mo.height, MT_FLINGRING)
-		ringburst.angle = kombiburstang
-		ringburst.fuse = 8 * TICRATE
-		if not (twodlevel or (player.mo.flags2 & MF2_TWOD)) -- Adventure-style behavior
-			ringburst.momx = FixedMul(cos(ringburst.angle), FixedMul(FixedMul(2 * FRACUNIT, losspenalty), player.mo.scale))
-			ringburst.momy = FixedMul(sin(ringburst.angle), FixedMul(FixedMul(2 * FRACUNIT, losspenalty), player.mo.scale))
-			ringburst.momz = 4 * FRACUNIT
-			kombiburstang = $ + FixedAngle(FRACUNIT * 360 / rings)
-		else -- Classic-style Behavior
-			local classicringthrust = FixedMul(FixedMul(classicringspeed, losspenalty), player.mo.scale)
-			ringburst.momx = FixedMul(cos(classicringang), classicringthrust)
-			ringburst.momz = FixedMul(sin(classicringang), classicringthrust)
-			if (i-1)%2
-				ringburst.momx = -ringburst.momx
-				classicringang = $ + ANGLE_22h
+		local ring = P_SpawnMobjFromMobj(player.realmo, 0, 0, player.mo.height, MT_FLINGRING)
+		ring.fuse = 8 * TICRATE
+
+		if not is2D then
+			-- Adventure-style behavior
+			ring.angle = burstAngle
+			ring.momx = FixedMul(cos(ring.angle), baseThrust)
+			ring.momy = FixedMul(sin(ring.angle), baseThrust)
+			ring.momz = 4 * FRACUNIT
+			burstAngle = $ + FixedAngle(FRACUNIT * 360 / rings)
+		else
+			-- Classic-style behavior
+			local thrust = FixedMul(classicRingSpeed, ringthrow) * player.mo.scale
+			ring.momx = FixedMul(cos(classicRingAngle), thrust)
+			ring.momz = FixedMul(sin(classicRingAngle), thrust)
+
+			if (i - 1) % 2 ~= 0 then
+				ring.momx = -ring.momx
+				classicRingAngle = $ + ANGLE_22h
 			end
-			if i == 16
-				classicringspeed = $/2
-				classicringang = classicringinitang
+
+			if i == 16 then
+				classicRingSpeed = classicRingSpeed / 2
+				classicRingAngle = ANGLE_90 + ANGLE_11hh
 			end
 		end
 	end
-	player.losstime = $+10*TICRATE
+
+	player.losstime = $ + 10 * TICRATE
 end
+
+-- Helper: Play pain sound based on skin’s sound bank
+local function playPainSound(target)
+	if kombisfxbank[target.skin] then
+		S_StartSound(target, kombisfxbank[target.skin].pain[P_RandomRange(1, #kombisfxbank[target.skin].pain)])
+	else
+		S_StartSound(target, P_RandomRange(sfx_whurt0, sfx_whurt7))
+	end
+end
+
+-- Helper: Award bonus score to the attacker if appropriate
+local function maybeAwardScore(inf, dmgType)
+	if not (dmgType & DMG_DEATHMASK) and inf and (not inf.type or inf.type ~= MT_EGGMAN_ICON) and inf.player then
+		P_AddPlayerScore(inf.player, 50)
+	end
+end
+
+-- Helper: Calculate damage based on object properties; divisor and default damage are parameters.
+local function calculateDamage(inf, divisor, defaultDamage)
+	if inf and inf.valid and FixedMul(inf.radius * 2, inf.height) / divisor > 0 then
+		return max(1, FixedSqrt(FixedMul(inf.radius * 2, inf.height) / divisor))
+	else
+		return defaultDamage
+	end
+end
+
+-- ROBLOX Damage Handler
+local function handleRBLX(target, inf, src, dmgType)
+	maybeAwardScore(inf, dmgType)
+	if target.player.powers[pw_shield] and shieldtake then
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		P_RemoveShield(target.player)
+	else
+		target.player.powers[pw_flashing] = 18
+		target.player.timeshit = target.player.timeshit + 1
+		P_PlayerEmeraldBurst(target.player, false)
+		P_PlayerWeaponAmmoBurst(target.player)
+		P_PlayerFlagBurst(target.player, false)
+		local damage = calculateDamage(inf, 20, 15 * FRACUNIT)
+		if damage >= 5 * FRACUNIT then
+			target.player.rblxouchclock = 35
+		end
+		target.player.rblxhp = target.player.rblxhp - damage
+		if target.player.rblxhp <= 0 then
+			P_KillMobj(target, inf, src)
+		elseif target.player.hp == 1 then
+			target.player.leveltimeadd = leveltime % 53
+		end
+	end
+end
+
+-- Wario Land: Shake It!! Damage Handler
+local function handleWLSI(target, inf, src, dmgType)
+	maybeAwardScore(inf, dmgType)
+	if target.player.powers[pw_shield] and shieldtake then
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		S_StartSound(target, hitsound)
+		P_RemoveShield(target.player)
+	else
+		local damage = calculateDamage(inf, 200, 3)
+		target.player.hp = target.player.hp - damage
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		S_StartSound(target, hitsound)
+		P_PlayerEmeraldBurst(target.player, false)
+		P_PlayerWeaponAmmoBurst(target.player)
+		P_PlayerFlagBurst(target.player, false)
+		if target.player.hp <= 0 and target.player.hpdivvies < 8 then
+			P_KillMobj(target, inf, src)
+		elseif target.player.hp == 1 then
+			target.player.leveltimeadd = leveltime % 53
+		end
+	end
+end
+
+-- Super Mario World Damage Handler
+local function handleSMW(target, inf, src, dmgType)
+	maybeAwardScore(inf, dmgType)
+	local powerdownsfx = kombiSMWItems["small"].pickupsfx or sfx_mwmush
+	if target.player.powers[pw_shield] and shieldtake then
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		S_StartSound(target, powerdownsfx)
+		P_RemoveShield(target.player)
+	else
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		P_PlayerEmeraldBurst(target.player, false)
+		P_PlayerWeaponAmmoBurst(target.player)
+		P_PlayerFlagBurst(target.player, false)
+		if target.player.kombismwpowerupstate == "small" then
+			if target.player.rings <= minrings then
+				P_KillMobj(target, inf, src)
+			else
+				target.player.rings = target.player.rings / 2
+				P_AdventureRingBurst(target.player, min(target.player.rings / 2, 32))
+				powerdownsfx = sfx_shldls
+			end
+		else
+			K_SetPowerUp(target, "small")
+		end
+		S_StartSound(target, powerdownsfx)
+	end
+end
+
+-- Super Mario Sunshine Damage Handler
+local function handleSMS(target, inf, src, dmgType)
+	maybeAwardScore(inf, dmgType)
+	local damage = calculateDamage(inf, 600, 1)
+	target.player.hp = target.player.hp - damage
+	if (dmgType & DMG_ELECTRIC) ~= 0 then
+		target.player.powers[pw_flashing] = 135
+		target.player.pause = 53
+	else
+		P_DoPlayerPain(target.player, src, inf)
+	end
+	target.player.timeshit = target.player.timeshit + 1
+	S_StartSound(target, hitsound)
+	P_PlayerEmeraldBurst(target.player, false)
+	P_PlayerWeaponAmmoBurst(target.player)
+	P_PlayerFlagBurst(target.player, false)
+	if target.player.hp <= 0 then
+		P_KillMobj(target, inf, src)
+	elseif target.player.hp == 1 then
+		target.player.leveltimeadd = leveltime % 53
+	end
+end
+
+-- Wario Land 4/Default Damage Handler
+local function handleDefault(target, inf, src, dmgType)
+	maybeAwardScore(inf, dmgType)
+	if target.player.powers[pw_shield] and shieldtake then
+		target.player.powers[pw_flashing] = 50
+		P_DoPlayerPain(target.player, src, inf)
+		S_StartSound(target, hitsound)
+		P_RemoveShield(target.player)
+	else
+		target.player.powers[pw_flashing] = 50
+		target.player.hp = target.player.hp - 1
+		P_DoPlayerPain(target.player, src, inf)
+		S_StartSound(target, hitsound)
+		P_PlayerEmeraldBurst(target.player, false)
+		P_PlayerWeaponAmmoBurst(target.player)
+		P_PlayerFlagBurst(target.player, false)
+		if target.player.hp == 0 and target.player.hpdivvies < 8 then
+			P_KillMobj(target, inf, src)
+		elseif target.player.hp == 1 then
+			target.player.leveltimeadd = leveltime % 53
+		end
+	end
+end
+
+-- Main hook for player damage
+addHook("MobjDamage", function(target, inf, src, dmg, dmgType)
+	-- Early out: Spike damage during spinjumping
+	if dmgType == DMG_SPIKE and target.player.spinjumping and abs(target.momz) >= 3 * FRACUNIT then
+		S_StartSound(target, sfx_kmwkik)
+		P_SetObjectMomZ(target, -3 * target.momz / 4, false)
+		return true
+	end
+
+	target.punchtime = 0
+	target.headbashing = 0
+
+	-- Early out: Ignore fire damage if already transformed to fire
+	if target.transformation == TR_FIRE and dmgType == DMG_FIRE then
+		return true
+	end
+
+	-- WL4 transformation hook – if conditions match, apply transformation and exit
+	if kombiwhogetswl4stuff[target.skin] and not (target.player.powers[pw_super] or target.player.powers[pw_flashing]) then
+		if cv_kombiwl4trans.value == 1 and inf and kombimobjtransformations[inf.type] then
+			if K_SetWLTransformation(target, kombimobjtransformations[inf.type]) then
+				playPainSound(target)
+			end
+			return true
+		end
+	end
+
+	-- For non-"rblx"/"smw" types, play a pain sound
+	if not (kombiwhogetswl4stuff[target.skin] == "rblx" or kombiwhogetswl4stuff[target.skin] == "smw") then
+		playPainSound(target)
+	end
+
+	-- Coin spawning and score adjustment
+	local dropValue = CV_FindVar("k_wl4hurtdrop").value
+	target.spawning = min(dropValue, target.player.wl4score)
+	P_AddPlayerScore(target.player, -target.spawning)
+	target.player.wl4score = target.player.wl4score - target.spawning
+
+	while target.spawning >= 10 do
+		SpawnCoins(target, target.spawning)
+		target.spawning = target.spawning - 10
+	end
+	P_AddPlayerScore(target.player, target.spawning)
+	target.player.wl4score = target.player.wl4score + target.spawning
+
+	if not kombiwhogetswl4stuff[target.skin] then
+		return
+	end
+
+	-- Handle WL4 health mechanics based on configuration
+	if CV_FindVar("k_wl4health").string == "On" then
+		local skinType = kombiwhogetswl4stuff[target.skin]
+		if skinType == "rblx" then
+			handleRBLX(target, inf, src, dmgType)
+		elseif skinType == "wlsi" then
+			handleWLSI(target, inf, src, dmgType)
+		elseif skinType == "smw" then
+			handleSMW(target, inf, src, dmgType)
+		elseif skinType == "sms" then
+			handleSMS(target, inf, src, dmgType)
+		elseif skinType == "lbn" then
+			return
+		else
+			handleDefault(target, inf, src, dmgType)
+		end
+	else
+		-- Fallback: ring loss if available, otherwise kill the target
+		if target.player.rings and target.player.rings > 0 then
+			if target.player.powers[pw_shield] and shieldtake then
+				target.player.powers[pw_flashing] = 50
+				P_DoPlayerPain(target.player, src, inf)
+				S_StartSound(target, hitsound)
+				P_RemoveShield(target.player)
+			else
+				P_PlayRinglossSound(target)
+				P_AdventureRingBurst(target.player, min(target.player.rings, 32))
+				P_DoPlayerPain(target.player, src, inf)
+				P_PlayerEmeraldBurst(target.player, false)
+				P_PlayerWeaponAmmoBurst(target.player)
+				P_PlayerFlagBurst(target.player, false)
+				target.player.rings = 0
+			end
+		else
+			P_KillMobj(target, inf, src)
+		end
+	end
+
+	return true
+end, MT_PLAYER)
 
 addHook("MobjDamage", function(target, inf, src, dmg, dmgType)
 	if dmgType == DMG_SPIKE and target.player.spinjumping and abs(target.momz) >= 3*FRACUNIT
@@ -717,12 +965,12 @@ addHook("MobjDamage", function(target, inf, src, dmg, dmgType)
 						P_AddPlayerScore(inf.player, 50)
 					end
 				end
-				local hurtsounda = kombiSMWItems["small"].pickupsfx or sfx_mwmush
+				local powerdownsfx = kombiSMWItems["small"].pickupsfx or sfx_mwmush
 				if target.player.powers[pw_shield]
 				and shieldtake == true
 					target.player.powers[pw_flashing] = 50
 					P_DoPlayerPain(target.player, src, inf)
-					S_StartSound(target, hurtsounda)
+					S_StartSound(target, powerdownsfx)
 					P_RemoveShield(target.player)
 				else
 					target.player.powers[pw_flashing] = 50
@@ -736,12 +984,12 @@ addHook("MobjDamage", function(target, inf, src, dmg, dmgType)
 						else
 							target.player.rings = $/2
 							P_AdventureRingBurst(target.player, min(target.player.rings/2, 32))
-							hurtsounda = sfx_shldls
+							powerdownsfx = sfx_shldls
 						end
 					else
 						K_SetPowerUp(target, "small")
 					end
-					S_StartSound(target, hurtsounda)
+					S_StartSound(target, powerdownsfx)
 				end
 			elseif kombiwhogetswl4stuff[target.skin] == "sms"
 				if not (dmgType & DMG_DEATHMASK) and inf and not (inf.type and inf.type == MT_EGGMAN_ICON)

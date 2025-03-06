@@ -3,6 +3,8 @@ local KOMBI_CREDIT_CAMY = -200+lineheight
 local fadedivisor = 6
 local fade = -40
 local credtime = 0
+local creditSlideshowFadeTime = TICRATE
+local creditSlideshowShowTime = TICRATE*127/3
 
 addHook("ThinkFrame", function(player)
 	for player in players.iterate do
@@ -14,7 +16,7 @@ addHook("ThinkFrame", function(player)
 			G_ExitLevel()
 			player.exiting = 0
 		end
-		if player.wldestlevel and player.exiting and player.exiting < 2
+		if player.wldestlevel and player.exiting and player.exiting < 2 -- hook into here because contrary to popular belief i DON'T want to pollute the BLUA handler with more ThinkFrames than there should be
 			G_SetCustomExitVars(player.wldestlevel, 1)
 			G_ExitLevel()
 			player.exiting = 0

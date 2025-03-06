@@ -1,12 +1,14 @@
-COM_AddCommand("k_openmenu", function(player)
+COM_AddCommand("k_menu", function(player)
 	if not player
 		return
 	end
-	player.inkombimenu = ($ != true)
+	player.inkombimenu = $ != true
 	if player.inkombimenu
 		S_ChangeMusic("_s2opt", true, player)
+		K_PauseMomentum(player)
 	else
 		COM_BufInsertText(player, "tunes -default")
+		K_ResumeMomentum(player)
 	end
 end)
 

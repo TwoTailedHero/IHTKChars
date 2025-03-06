@@ -690,7 +690,7 @@ if not srb2p
 
 				if overflow then drawDigit(v, center, ypos, 2, (kombi.timeleftmins / 10) % 10, wltimeclr) end
 				if drawdots then drawDigit(v, center + offset, ypos, 2, "C", wltimeclr) end
-				if drawdots then drawDigit(v, center + offset * 4, ypos + 25, 1, "D", wltimeclr) end
+				if drawdots then drawDigit(v, center + offset * 4, ypos+15, 1, "D", wltimeclr) end
 
 				drawDigit(v, center + offset * 3, ypos, 2, kombi.timeleftsecs % 10, wltimeclr)
 				drawDigit(v, center + offset * 2, ypos, 2, (kombi.timeleftsecs / 10) % 10, wltimeclr)
@@ -701,8 +701,8 @@ if not srb2p
 					drawDigit(v, center, ypos, 2, kombi.timeleftmins % 10, wltimeclr)
 				end
 
-				drawDigit(v, center + offset * 5, ypos + 25, 1, kombi.timeleftcents % 10, wltimeclr)
-				drawDigit(v, center + offset * 4 + 8, ypos + 25, 1, (kombi.timeleftcents / 10) % 10, wltimeclr)
+				drawDigit(v, center + offset * 5, ypos+15, 1, kombi.timeleftcents % 10, wltimeclr)
+				drawDigit(v, center + offset * 4 + 8, ypos+15, 1, (kombi.timeleftcents / 10) % 10, wltimeclr)
 			end
 
 			drawClockAnimation(v, center, ypos, frame)

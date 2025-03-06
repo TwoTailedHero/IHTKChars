@@ -76,7 +76,7 @@ addHook("AbilitySpecial", function(player)
 	if player.realmo.skin == "tynker"
 		return true
 	end
-	if player.realmo.skin == "kombi" and player.charability == CA_DOUBLEJUMP
+	if player.realmo.skin == "kombi" and player.charability != CA_HOMINGTHOK
 		if player.realmo.collidewall return true end
 		player.pflags = $|PF_THOKKED
 		if not srb2p
@@ -120,7 +120,7 @@ addHook("ShieldSpecial", function(player)
 		S_StartSound(player.realmo, sfx_spndsh)
 	elseif (player.powers[pw_shield] & SH_NOSTACK) == SH_ATTRACT
 		player.kombicustomshieldabil = TICRATE/3
-		player.homingtarget = P_LookForEnemies(player) or $
+		player.mo.tracer = P_LookForEnemies(player) or $
 	elseif (player.powers[pw_shield] & SH_NOSTACK) == SH_WHIRLWIND
 		player.storemom = FixedHypot(player.mo.momx, player.mo.momy)
 		player.kombicustomshieldabil = TICRATE
@@ -345,13 +345,13 @@ addHook("PlayerThink", function(player)
 			end
 		elseif (player.powers[pw_shield] & SH_NOSTACK) == SH_ATTRACT
 			P_InstaThrust(player.realmo, player.drawangle, player.actionspd)
-			player.homingtarget = P_LookForEnemies(player) or $
+			player.mo.tracer = P_LookForEnemies(player) or $
 			if player.kombicustomshieldabil == 0
 				player.mo.state = S_PLAY_ROLL
-				player.homingtarget = P_LookForEnemies(player) or $
-				player.homingtime = 3*TICRATE
+				player.mo.tracer = P_LookForEnemies(player) or $
+				player.homing = 3*TICRATE
 				player.pflags = $|PF_SHIELDABILITY
-				if not player.homingtarget
+				if not player.mo.tracer
 					S_StartSound(player.mo, sfx_kc59)
 					P_InstaThrust(player.realmo, player.drawangle, 18*FRACUNIT)
 				end
@@ -393,10 +393,6 @@ addHook("PlayerThink", function(player)
 		if player.kombicustomshieldabil < 0
 			player.kombicustomshieldabil = 0
 		end
-	end
-	if player.homingtime
-		if player.homingtarget and player.homingtarget.valid P_HomingAttack(player.mo, player.homingtarget) end
-		player.homingtime = $-1
 	end
 	if player.mo.standingslope and player.mo.standingslope.zdelta and ((player.mo.skin == "kombi" and not player.kombiboosting) or player.mo.skin != "kombi")
 		player.kombishouldroll = true

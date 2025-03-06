@@ -547,7 +547,10 @@ addHook("PreThinkFrame", function()
 		if player.mo.state == S_PLAY_KOMBILOOKUP1 or player.mo.state == S_PLAY_KOMBILOOKUP2
 			if not (player.cmd.buttons & BT_CUSTOM1)
 				player.realmo.state = S_PLAY_STND
-				return
+				continue
+			end
+			if (player.cmd.buttons & BT_CUSTOM2)
+				
 			end
 			if (player.cmd.buttons & BT_JUMP) and not player.kombisuperpeelout and abilityConfig.peelout
 				player.cmd.buttons = $ & ~BT_JUMP
